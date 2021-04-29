@@ -28,5 +28,12 @@ namespace WebApp.Controllers
             _actorsService.AddActor(actor);
             return Ok();
         }
+
+        [HttpGet("get-actor-with-movies-by-id/{id}")]
+        public IActionResult GetActorWithMovies(int id)
+        {
+            var response = _actorsService.GetActorWithMovies(id);
+            return Ok(response);
+        }
     }
 }

@@ -9,4 +9,10 @@ namespace WebApp.Data.ViewModels
     {
         public string FullName { get; set; }
     }
+
+    public class ActorWithMoviesVM
+    {
+        public string FullName { get; set; }
+        public List<string> MovieTitles { get; set; }
+    }
 }
