@@ -47,6 +47,8 @@ namespace WebApp.Data.Services
             return _producerData;
         }
 
+        public List<Producer> GetAllProducers() => _context.Producers.ToList();
+
         public void DeleteProducerById(int id)
         {
             var _producer = _context.Producers.FirstOrDefault(n => n.Id == id);

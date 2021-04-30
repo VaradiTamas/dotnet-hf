@@ -20,7 +20,7 @@ namespace WebApp.Data.ViewModels
     {
         public string Title { get; set; }
         public string Description { get; set; }
-        public int? Rate { get; set; }
+        public double? Rate { get; set; }
         public int? NumOfRates { get; set; }
         public string Genre { get; set; }
         public string ProducerName { get; set; }

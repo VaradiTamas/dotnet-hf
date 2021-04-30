@@ -45,12 +45,28 @@ namespace WebApp.Controllers
             return Ok(movie);
         }
 
+        //returns a list of movies with the given genre
+        [HttpGet("get-movies-by-genre/{genre}")]
+        public IActionResult GetMoviesByGenre(string genre)
+        {
+            var movies = _moviesService.GetMoviesByGenre(genre);
+            return Ok(movies);
+        }
+
         //updating the movie which id corresponds with the given id
         [HttpPut("update-movie-by-id/{id}")]
         public IActionResult UpdateMovieById(int id, [FromBody] MovieVM movie)
         {
             var updatedMovie = _moviesService.UpdateMovieById(id, movie);
             return Ok(updatedMovie);
+        }
+
+        //rating a movie with a number between 1-5
+        [HttpPut("rate-movie/{id}")]
+        public IActionResult RateMovie(int id, [FromBody] int rate)
+        {
+            var ratedMovie = _moviesService.RateMovie(id, rate);
+            return Ok(ratedMovie);
         }
 
         //deletinig the movie that the given id corresponds with

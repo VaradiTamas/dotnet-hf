@@ -14,6 +14,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using WebApp.Data;
 using WebApp.Data.Services;
+using WebApp.Exceptions;
 
 namespace WebApp
 {
@@ -63,6 +64,9 @@ namespace WebApp
             app.UseRouting();
 
             app.UseAuthorization();
+
+            //Exception handling
+            app.ConfigureBuiltInExceptionHandler();
 
             app.UseEndpoints(endpoints =>
             {

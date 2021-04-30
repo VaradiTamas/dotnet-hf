@@ -26,6 +26,8 @@ namespace WebApp.Data.Services
                 Title = movie.Title,
                 Description = movie.Description,
                 Genre = movie.Genre,
+                Rate = 0,
+                NumOfRates = 0,
                 DateAdded = DateTime.Now,
                 ProducerId = movie.ProducerId
             };
@@ -63,6 +65,23 @@ namespace WebApp.Data.Services
 
             return _movieWithActors;
         }
+
+        public Movie RateMovie(int movieId, int rate)
+        {
+            var _movie = _context.Movies.FirstOrDefault(n => n.Id == movieId);
+            if (_movie != null)
+            {
+                _movie.Rate = (((_movie.Rate) * _movie.NumOfRates) + rate) / (_movie.NumOfRates + 1);
+                _movie.NumOfRates++;
+
+                _context.SaveChanges();
+            }
+
+            return _movie;
+        }
+
+        //returns a list of movies with the given genre
+        public List<Movie> GetMoviesByGenre(string genre) => _context.Movies.Where(x => x.Genre == genre).ToList();
 
         //update an already existing movie (which id corresponds with the given movieId) with the given movie
         //if there is no such movie with the given id it returns null

@@ -10,7 +10,7 @@ namespace WebApp.Data.Models
         public int Id { get; set; }
         public string Title { get; set; }
         public string Description { get; set; }
-        public int? Rate { get; set; }
+        public double? Rate { get; set; }
         public int? NumOfRates { get; set; }
         public string Genre { get; set; }
         public DateTime DateAdded { get; set; }

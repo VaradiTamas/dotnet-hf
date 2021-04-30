@@ -25,8 +25,16 @@ namespace WebApp.Controllers
         [HttpPost("add-producer")]
         public IActionResult AddProducer([FromBody] ProducerVM producer)
         {
-            var newProducer = _producersService.AddProducer(producer);
-            return Created(nameof(AddProducer), newProducer);
+            try
+            {
+                var newProducer = _producersService.AddProducer(producer);
+                return Created(nameof(AddProducer), newProducer);
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
+            
         }
 
         //returns the producer 
@@ -52,11 +60,33 @@ namespace WebApp.Controllers
             return Ok(_response);
         }
 
+        [HttpGet("get-all-producers")]
+        public IActionResult GetAllProducers()
+        {
+            try
+            {
+                var _result = _producersService.GetAllProducers();
+                return Ok(_result);
+            }
+            catch (Exception ex)
+            {
+                return BadRequest("Couldn't fetch producers");
+            }
+        }
+
         [HttpDelete("delete-producer-by-id/{id}")]
         public IActionResult DeleteProducerById(int id)
         {
-            _producersService.DeleteProducerById(id);
-            return Ok();
+            try
+            {
+                _producersService.DeleteProducerById(id);
+                return Ok();
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
+            
         }
     }
 }
