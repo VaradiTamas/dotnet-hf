@@ -48,7 +48,22 @@ namespace WebApp.Data.Services
         }
 
         //returns all movie records from database
-        public List<Movie> GetAllMovies() => _context.Movies.ToList();
+        public List<MovieWithActorsVM> GetAllMovies()
+        {
+            var _moviesWithActors = _context.Movies.Select(movie => new MovieWithActorsVM()
+            {
+                Id = movie.Id,
+                Title = movie.Title,
+                Description = movie.Description,
+                Rate = movie.Rate,
+                NumOfRates = movie.NumOfRates,
+                Genre = movie.Genre,
+                ProducerName = movie.Producer.Name,
+                ActorNames = movie.Movie_Actors.Select(n => n.Actor.FullName).ToList()
+            }).ToList();
+
+            return _moviesWithActors;
+        }
 
         //returns the only movie which id corresponds with the given one
         //if there is no such movie with the given id it returns null
@@ -56,8 +71,11 @@ namespace WebApp.Data.Services
         {
             var _movieWithActors = _context.Movies.Where(x => x.Id == movieId).Select(movie => new MovieWithActorsVM()
             {
+                Id = movie.Id,
                 Title = movie.Title,
                 Description = movie.Description,
+                Rate = movie.Rate,
+                NumOfRates = movie.NumOfRates,
                 Genre = movie.Genre,
                 ProducerName = movie.Producer.Name,
                 ActorNames = movie.Movie_Actors.Select(n => n.Actor.FullName).ToList()
