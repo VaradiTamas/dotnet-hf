@@ -11,7 +11,6 @@ namespace WebApp.Controllers.v1
 {
     [ApiVersion("1.0")]
     [Route("api/[controller]")]
-    //[Route("api/v1/[controller]")]
     [ApiController]
     public class ProducersController : ControllerBase
     {

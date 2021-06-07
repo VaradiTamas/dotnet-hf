@@ -11,7 +11,6 @@ namespace WebApp.Controllers.v2
 {
     [ApiVersion("2.0")]
     [Route("api/[controller]")]
-    //[Route("api/v2/[controller]")]
     [ApiController]
     public class ActorsController : ControllerBase
     {
