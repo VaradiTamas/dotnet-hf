@@ -7,9 +7,11 @@ using System.Threading.Tasks;
 using WebApp.Data.Services;
 using WebApp.Data.ViewModels;
 
-namespace WebApp.Controllers
+namespace WebApp.Controllers.v1
 {
+    [ApiVersion("1.0")]
     [Route("api/[controller]")]
+    //[Route("api/v1/[controller]")]
     [ApiController]
     public class MoviesController : ControllerBase
     {
@@ -75,6 +77,12 @@ namespace WebApp.Controllers
         {
             _moviesService.DeleteMovieById(id);
             return Ok();
+        }
+
+        [HttpGet("get-version")]
+        public IActionResult Get()
+        {
+            return Ok("This is movies version 1");
         }
     }
 }

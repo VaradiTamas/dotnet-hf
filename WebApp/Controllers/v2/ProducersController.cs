@@ -7,9 +7,11 @@ using System.Threading.Tasks;
 using WebApp.Data.Services;
 using WebApp.Data.ViewModels;
 
-namespace WebApp.Controllers
+namespace WebApp.Controllers.v2
 {
+    [ApiVersion("2.0")]
     [Route("api/[controller]")]
+    //[Route("api/v2/[controller]")]
     [ApiController]
     public class ProducersController : ControllerBase
     {
@@ -21,8 +23,14 @@ namespace WebApp.Controllers
             _producersService = producersService;
         }
 
-        //adding a new producer record to db
+        /// <summary>
+        /// Creates a new producer
+        /// </summary>
+        /// <param name="producer">The producer to create</param>
+        /// <returns>Returns the producer inserted</returns>
+        /// <response code="201">Insert successful</response>
         [HttpPost("add-producer")]
+        [ProducesResponseType(StatusCodes.Status201Created)]
         public IActionResult AddProducer([FromBody] ProducerVM producer)
         {
             try
@@ -87,6 +95,12 @@ namespace WebApp.Controllers
                 return BadRequest(ex.Message);
             }
             
+        }
+
+        [HttpGet("get-version")]
+        public IActionResult Get()
+        {
+            return Ok("This is producers version 2");
         }
     }
 }
