@@ -22,6 +22,30 @@ namespace WebApp.Data
                 .HasOne(m => m.Actor)
                 .WithMany(ma => ma.Movie_Actors)
                 .HasForeignKey(mi => mi.ActorId);
+
+            //Seeding
+            modelBuilder.Entity<Movie>().HasData(
+                new Movie()
+                {
+                    Id = 1,
+                    Title = "1st Movie Title",
+                    Description = "1st Movie Description",
+                    Rate = 4,
+                    NumOfRates = 1,
+                    Genre = "Comedy",
+                    DateAdded = DateTime.Now,
+                    ProducerId = 2
+                },
+                new Movie()
+                {
+                    Id = 2,
+                    Title = "2nd Movie Title",
+                    Description = "2nd Movie Description",
+                    Genre = "Horror",
+                    DateAdded = DateTime.Now,
+                    ProducerId = 1
+                }
+            );
         }
 
         public DbSet<Movie> Movies { get; set; }
