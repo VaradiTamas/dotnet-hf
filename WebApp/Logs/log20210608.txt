@@ -1,0 +1,33 @@
+ [Information] - Message: This is a log in GetAllProducers()!
+06/08/2021 13:28:56 +02:00 [Information] - Message: This is a log in GetAllProducers()!
+06/08/2021 14:08:13 +02:00 [Error] - Message: An unhandled exception has occurred while executing the request.
+System.Exception: This is an exception thrown from GetAllProducers()!
+   at WebApp.Controllers.v1.ProducersController.GetAllProducers(String searchString) in C:\Users\dell\Documents\BME\6.felev\.NET\HF\WebApp\WebApp\Controllers\v1\ProducersController.cs:line 70
+   at lambda_method2(Closure , Object , Object[] )
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ActionMethodExecutor.SyncActionResultExecutor.Execute(IActionResultTypeMapper mapper, ObjectMethodExecutor executor, Object controller, Object[] arguments)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.InvokeActionMethodAsync()
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.Next(State& next, Scope& scope, Object& state, Boolean& isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.InvokeNextActionFilterAsync()
+--- End of stack trace from previous location ---
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.Rethrow(ActionExecutedContextSealed context)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.Next(State& next, Scope& scope, Object& state, Boolean& isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.InvokeInnerFilterAsync()
+--- End of stack trace from previous location ---
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.<InvokeNextResourceFilter>g__Awaited|24_0(ResourceInvoker invoker, Task lastTask, State next, Scope scope, Object state, Boolean isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.Rethrow(ResourceExecutedContextSealed context)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.Next(State& next, Scope& scope, Object& state, Boolean& isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.InvokeFilterPipelineAsync()
+--- End of stack trace from previous location ---
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.<InvokeAsync>g__Awaited|17_0(ResourceInvoker invoker, Task task, IDisposable scope)
+   at Microsoft.AspNetCore.Routing.EndpointMiddleware.<Invoke>g__AwaitRequestTask|6_0(Endpoint endpoint, Task requestTask, ILogger logger)
+   at Microsoft.AspNetCore.Diagnostics.ExceptionHandlerMiddleware.<Invoke>g__Awaited|6_0(ExceptionHandlerMiddleware middleware, HttpContext context, Task task)
+06/08/2021 14:08:14 +02:00 [Error] - Message: {"StatusCode":500,"Message":"This is an exception thrown from GetAllProducers()!","Path":"/api/Producers/get-all-producers"}
+06/08/2021 15:16:39 +02:00 [Information] - Message: This is a log in GetProducerById()!
+06/08/2021 15:21:59 +02:00 [Information] - Message: This is a log in GetProducerById()!
+06/08/2021 15:22:06 +02:00 [Information] - Message: Successfully returned a product.
+06/08/2021 15:22:13 +02:00 [Information] - Message: This is a log in GetProducerById()!
+06/08/2021 15:22:14 +02:00 [Error] - Message: Product not found!
+06/08/2021 15:28:40 +02:00 [Information] - Message: This is a log in GetProducerById()!
+06/08/2021 15:28:54 +02:00 [Information] - Message: Successfully returned a product.
+06/08/2021 15:29:00 +02:00 [Information] - Message: This is a log in GetProducerById()!
+06/08/2021 15:29:02 +02:00 [Error] - Message: Product not found!

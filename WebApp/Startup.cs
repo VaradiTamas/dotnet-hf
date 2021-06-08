@@ -73,7 +73,7 @@ namespace WebApp
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
-        public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
+        public void Configure(IApplicationBuilder app, IWebHostEnvironment env, ILoggerFactory loggerFactory)
         {
             if (env.IsDevelopment())
             {
@@ -94,7 +94,7 @@ namespace WebApp
             app.UseAuthorization();
 
             //Exception handling
-            app.ConfigureBuiltInExceptionHandler();
+            app.ConfigureBuiltInExceptionHandler(loggerFactory);
 
             app.UseEndpoints(endpoints =>
             {

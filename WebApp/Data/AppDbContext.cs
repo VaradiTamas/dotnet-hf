@@ -52,5 +52,6 @@ namespace WebApp.Data
         public DbSet<Actor> Actors { get; set; }
         public DbSet<Movie_Actor> Movie_Actors { get; set; }
         public DbSet<Producer> Producers { get; set; }
+        public DbSet<Log> Logs { get; set; }
     }
 }

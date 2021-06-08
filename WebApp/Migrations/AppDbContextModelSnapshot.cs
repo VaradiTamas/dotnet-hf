@@ -34,6 +34,39 @@ namespace WebApp.Migrations
                     b.ToTable("Actors");
                 });
 
+            modelBuilder.Entity("WebApp.Data.Models.Log", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<string>("Exception")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Level")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("LogEvent")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Message")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("MessageTemplate")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Properties")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<DateTime>("TimeStamp")
+                        .HasColumnType("datetime2");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Logs");
+                });
+
             modelBuilder.Entity("WebApp.Data.Models.Movie", b =>
                 {
                     b.Property<int>("Id")
@@ -72,7 +105,7 @@ namespace WebApp.Migrations
                         new
                         {
                             Id = 1,
-                            DateAdded = new DateTime(2021, 6, 7, 20, 17, 49, 374, DateTimeKind.Local).AddTicks(6776),
+                            DateAdded = new DateTime(2021, 6, 8, 13, 22, 5, 114, DateTimeKind.Local).AddTicks(4120),
                             Description = "1st Movie Description",
                             Genre = "Comedy",
                             NumOfRates = 1,
@@ -83,7 +116,7 @@ namespace WebApp.Migrations
                         new
                         {
                             Id = 2,
-                            DateAdded = new DateTime(2021, 6, 7, 20, 17, 49, 380, DateTimeKind.Local).AddTicks(6909),
+                            DateAdded = new DateTime(2021, 6, 8, 13, 22, 5, 123, DateTimeKind.Local).AddTicks(9127),
                             Description = "2nd Movie Description",
                             Genre = "Horror",
                             ProducerId = 1,

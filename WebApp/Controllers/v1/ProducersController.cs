@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Logging;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -15,10 +16,12 @@ namespace WebApp.Controllers.v1
     public class ProducersController : ControllerBase
     {
         public ProducersService _producersService;
+        private readonly ILogger<ProducersController> _logger;
 
         //injecting the ProducersService
-        public ProducersController(ProducersService producersService)
+        public ProducersController(ProducersService producersService, ILogger<ProducersController> logger)
         {
+            _logger = logger;
             _producersService = producersService;
         }
 
@@ -42,13 +45,17 @@ namespace WebApp.Controllers.v1
         [HttpGet("get-producer-by-id/{id}")]
         public IActionResult GetProducerById(int id)
         {
+            _logger.LogInformation("This is a log in GetProducerById()!");
+      
             var _response = _producersService.GetProducerById(id);
             if(_response != null)
             {
+                _logger.LogInformation("Successfully returned a product.");
                 return Ok(_response);
             }
             else
             {
+                _logger.LogError("Product not found!");
                 return NotFound();
             }
         }
@@ -57,6 +64,8 @@ namespace WebApp.Controllers.v1
         [HttpGet("get-producer-data/{id}")]
         public IActionResult GetProducerData(int id)
         {
+            _logger.LogInformation("This is a log in GetProducerData()!");
+
             var _response = _producersService.GetProducerData(id);
             return Ok(_response);
         }
@@ -64,8 +73,11 @@ namespace WebApp.Controllers.v1
         [HttpGet("get-all-producers")]
         public IActionResult GetAllProducers(string searchString)
         {
+            //throw new Exception("This is an exception thrown from GetAllProducers()!");
             try
             {
+                _logger.LogInformation("This is a log in GetAllProducers()!");
+
                 var _result = _producersService.GetAllProducers(searchString);
                 return Ok(_result);
             }

@@ -1,0 +1,16 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>WebApp</name>
+    </assembly>
+    <members>
+        <member name="M:WebApp.Controllers.v2.ProducersController.AddProducer(WebApp.Data.ViewModels.ProducerVM)">
+            <summary>
+            Creates a new producer
+            </summary>
+            <param name="producer">The producer to create</param>
+            <returns>Returns the producer inserted</returns>
+            <response code="201">Insert successful</response>
+        </member>
+    </members>
+</doc>
