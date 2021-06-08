@@ -22,12 +22,6 @@ namespace WebApp.Controllers.v1
             _producersService = producersService;
         }
 
-        /// <summary>
-        /// Creates a new producer
-        /// </summary>
-        /// <param name="producer">The producer to create</param>
-        /// <returns>Returns the producer inserted</returns>
-        /// <response code="201">Insert successful</response>
         [HttpPost("add-producer")]
         [ProducesResponseType(StatusCodes.Status201Created)]
         public IActionResult AddProducer([FromBody] ProducerVM producer)
@@ -68,11 +62,11 @@ namespace WebApp.Controllers.v1
         }
 
         [HttpGet("get-all-producers")]
-        public IActionResult GetAllProducers()
+        public IActionResult GetAllProducers(string searchString)
         {
             try
             {
-                var _result = _producersService.GetAllProducers();
+                var _result = _producersService.GetAllProducers(searchString);
                 return Ok(_result);
             }
             catch (Exception ex)

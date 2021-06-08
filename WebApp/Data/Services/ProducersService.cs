@@ -47,7 +47,18 @@ namespace WebApp.Data.Services
             return _producerData;
         }
 
-        public List<Producer> GetAllProducers() => _context.Producers.ToList();
+        public List<Producer> GetAllProducers(string searchString)
+        {
+            IQueryable<Producer> allProducers = _context.Producers.ToList().AsQueryable();
+            var producers = allProducers.ToList();
+
+            if (!string.IsNullOrEmpty(searchString))
+            {
+                producers = allProducers.Where(n => n.Name.Contains(searchString, StringComparison.CurrentCultureIgnoreCase)).ToList();
+            }
+
+            return producers;
+        }
 
         public void DeleteProducerById(int id)
         {

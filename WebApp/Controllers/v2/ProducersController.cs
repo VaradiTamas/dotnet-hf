@@ -68,11 +68,11 @@ namespace WebApp.Controllers.v2
         }
 
         [HttpGet("get-all-producers")]
-        public IActionResult GetAllProducers()
+        public IActionResult GetAllProducers(string searchString)
         {
             try
             {
-                var _result = _producersService.GetAllProducers();
+                var _result = _producersService.GetAllProducers(searchString);
                 return Ok(_result);
             }
             catch (Exception ex)
