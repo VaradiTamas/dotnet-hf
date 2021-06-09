@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Microsoft.Extensions.Logging;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -10,11 +11,13 @@ namespace WebApp.Data.Services
     public class ProducersService
     {
         private AppDbContext _context;
+        private readonly ILogger<ProducersService> _logger;
 
-        //inject AppDbContext file
-        public ProducersService(AppDbContext context)
+        //inject AppDbContext file & ILogger
+        public ProducersService(AppDbContext context, ILogger<ProducersService> logger)
         {
             _context = context;
+            _logger = logger;
         }
 
         public Producer AddProducer(ProducerVM producer)
@@ -25,6 +28,8 @@ namespace WebApp.Data.Services
             };
             _context.Producers.Add(_producer);
             _context.SaveChanges();
+
+            _logger.LogInformation($"Producer added successfully! Producer: {_producer.Name} With Id: {_producer.Id}");
 
             return _producer;
         }
@@ -44,6 +49,8 @@ namespace WebApp.Data.Services
                     }).ToList()
                 }).FirstOrDefault();
 
+            _logger.LogInformation($"Producer fetched successfully! Producer: {_producerData.Name}");
+
             return _producerData;
         }
 
@@ -55,6 +62,7 @@ namespace WebApp.Data.Services
             if (!string.IsNullOrEmpty(searchString))
             {
                 producers = allProducers.Where(n => n.Name.Contains(searchString, StringComparison.CurrentCultureIgnoreCase)).ToList();
+                _logger.LogInformation($"Producers fetched successfully with searchString {searchString}!");
             }
 
             return producers;
@@ -68,6 +76,7 @@ namespace WebApp.Data.Services
             {
                 _context.Producers.Remove(_producer);
                 _context.SaveChanges();
+                _logger.LogInformation($"Producer with id {id} has been deleted successfully!");
             }
             else
             {

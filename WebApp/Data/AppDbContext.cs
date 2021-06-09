@@ -24,6 +24,7 @@ namespace WebApp.Data
                 .HasForeignKey(mi => mi.ActorId);
 
             //Seeding
+
             modelBuilder.Entity<Movie>().HasData(
                 new Movie()
                 {
@@ -46,6 +47,12 @@ namespace WebApp.Data
                     ProducerId = 1
                 }
             );
+
+            //Index
+
+            modelBuilder.Entity<Movie>()
+                .HasIndex(n => n.Title)
+                .IsUnique();
         }
 
         public DbSet<Movie> Movies { get; set; }

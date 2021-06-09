@@ -33,7 +33,7 @@ namespace WebAppTests
 
             SeedDatabase();
 
-            producersService = new ProducersService(context);
+            producersService = new ProducersService(context, new NullLogger<ProducersService>());
             producersController = new ProducersController(producersService, new NullLogger<ProducersController>());
         }
 

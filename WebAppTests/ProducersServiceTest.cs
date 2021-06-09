@@ -1,4 +1,5 @@
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Logging.Abstractions;
 using NUnit.Framework;
 using System;
 using System.Collections.Generic;
@@ -27,7 +28,7 @@ namespace WebAppTests
 
             SeedDatabase();
 
-            producersService = new ProducersService(context);
+            producersService = new ProducersService(context, new NullLogger<ProducersService>());
         }
 
         //GetAllProducers tests

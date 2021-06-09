@@ -29,6 +29,8 @@ namespace WebApp.Controllers.v1
         [ProducesResponseType(StatusCodes.Status201Created)]
         public IActionResult AddProducer([FromBody] ProducerVM producer)
         {
+            _logger.LogInformation($"AddProducer has been called with parameter name: {producer.Name}");
+
             try
             {
                 var newProducer = _producersService.AddProducer(producer);
@@ -36,6 +38,7 @@ namespace WebApp.Controllers.v1
             }
             catch (Exception ex)
             {
+                _logger.LogError($"Couldn't add producer because {ex.Message}.");
                 return BadRequest(ex.Message);
             }
             
@@ -45,17 +48,17 @@ namespace WebApp.Controllers.v1
         [HttpGet("get-producer-by-id/{id}")]
         public IActionResult GetProducerById(int id)
         {
-            _logger.LogInformation("This is a log in GetProducerById()!");
-      
+            _logger.LogInformation($"GetProducer has been called with parameter id: {id}");
+
             var _response = _producersService.GetProducerById(id);
             if(_response != null)
             {
-                _logger.LogInformation("Successfully returned a product.");
+                _logger.LogInformation($"Successfully returned a product with id: {_response.Id} and name: {_response.Name} ");
                 return Ok(_response);
             }
             else
             {
-                _logger.LogError("Product not found!");
+                _logger.LogError($"Product with id: {id} not found!");
                 return NotFound();
             }
         }
@@ -64,7 +67,7 @@ namespace WebApp.Controllers.v1
         [HttpGet("get-producer-data/{id}")]
         public IActionResult GetProducerData(int id)
         {
-            _logger.LogInformation("This is a log in GetProducerData()!");
+            _logger.LogInformation($"GetProducerData has been called with parameter id: {id}");
 
             var _response = _producersService.GetProducerData(id);
             return Ok(_response);
@@ -76,13 +79,14 @@ namespace WebApp.Controllers.v1
             //throw new Exception("This is an exception thrown from GetAllProducers()!");
             try
             {
-                _logger.LogInformation("This is a log in GetAllProducers()!");
+                _logger.LogInformation($"GetAllProducers has been called with parameter searchString: {searchString}");
 
                 var _result = _producersService.GetAllProducers(searchString);
                 return Ok(_result);
             }
             catch (Exception ex)
             {
+                _logger.LogError($"Couldn't fetch producers!");
                 return BadRequest("Couldn't fetch producers");
             }
         }
@@ -92,11 +96,13 @@ namespace WebApp.Controllers.v1
         {
             try
             {
+                _logger.LogInformation($"DeleteProducerById has been called with parameter id: {id}");
                 _producersService.DeleteProducerById(id);
                 return Ok();
             }
             catch (Exception ex)
             {
+                _logger.LogError($"Couldn't delete producer because {ex.Message}.");
                 return BadRequest(ex.Message);
             }
             
