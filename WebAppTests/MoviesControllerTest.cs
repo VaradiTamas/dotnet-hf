@@ -1,8 +1,12 @@
+﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using NUnit.Framework;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+using WebApp.Controllers.v1;
 using WebApp.Data;
 using WebApp.Data.Models;
 using WebApp.Data.Services;
@@ -10,14 +14,15 @@ using WebApp.Data.ViewModels;
 
 namespace WebAppTests
 {
-    public class ProducersServiceTest
+    class MoviesControllerTest
     {
         private static DbContextOptions<AppDbContext> dbContextOptions = new DbContextOptionsBuilder<AppDbContext>()
-            .UseInMemoryDatabase(databaseName: "MovieDbTest")
-            .Options;
+           .UseInMemoryDatabase(databaseName: "MovieDbTest")
+           .Options;
 
         AppDbContext context;
-        ProducersService producersService;
+        MoviesService moviesService;
+        MoviesController moviesController;
 
         [OneTimeSetUp]
         public void Setup()
@@ -27,101 +32,72 @@ namespace WebAppTests
 
             SeedDatabase();
 
-            producersService = new ProducersService(context);
+            moviesService = new MoviesService(context);
+            moviesController = new MoviesController(moviesService);
         }
 
-        //GetAllProducers tests
+        //GetAllMovies tests
 
         [Test, Order(1)]
-        public void GetAllProducers_WithNoSearchString_Test()
+        public void HTTPGET_GetAllMovies_Test()
         {
-            var result = producersService.GetAllProducers("");
+            IActionResult actionResult = moviesController.GetAllMovies();
 
-            Assert.That(result.Count, Is.EqualTo(3));
+            Assert.That(actionResult, Is.TypeOf<OkObjectResult>());
+
+            var actionResultData = (actionResult as OkObjectResult).Value as List<MovieWithActorsVM>;
+
+            Assert.That(actionResultData.First().Title, Is.EqualTo("1st Movie Title"));
+            Assert.That(actionResultData.First().Description, Is.EqualTo("1st Movie Description"));
+            Assert.That(actionResultData.First().Id, Is.EqualTo(1));
+            Assert.That(actionResultData.Count, Is.EqualTo(5));
         }
+
+        //GetMovieById tests
 
         [Test, Order(2)]
-        public void GetAllProducers_WithSearchString_Test()
+        public void HTTPGET_GetMovieById_ReturnsOk_Test()
         {
-            var result = producersService.GetAllProducers("3");
+            IActionResult actionResult = moviesController.GetMovieById(3);
 
-            Assert.That(result.Count, Is.EqualTo(1));
-            Assert.That(result.FirstOrDefault().Name, Is.EqualTo("Producer 3"));
+            Assert.That(actionResult, Is.TypeOf<OkObjectResult>());
+
+            var movie = (actionResult as OkObjectResult).Value as MovieWithActorsVM;
+
+            Assert.That(movie.Title, Is.EqualTo("1st Movie Title"));
+            Assert.That(movie.Description, Is.EqualTo("1st Movie Description"));
+            Assert.That(movie.Id, Is.EqualTo(3));
         }
 
-        //GetProducerById tests
+        //UpdateMovie tests
 
         [Test, Order(3)]
-        public void GetProducerById_WithResponse_Test()
+        public void HTTPPUT_UpdateMovieById_Test()
         {
-            var result = producersService.GetProducerById(1);
+            IActionResult actionResult = moviesController.GetMovieById(3);
 
-            Assert.That(result.Id, Is.EqualTo(1));
-            Assert.That(result.Name, Is.EqualTo("Producer 1"));
-        }
+            Assert.That(actionResult, Is.TypeOf<OkObjectResult>());
 
-        [Test, Order(4)]
-        public void GetProducerById_WithNoResponse_Test()
-        {
-            var result = producersService.GetProducerById(100);
+            var beforeMovie = (actionResult as OkObjectResult).Value as MovieWithActorsVM;
 
-            Assert.That(result, Is.Null);
-        }
+            Assert.That(beforeMovie.Title, Is.EqualTo("1st Movie Title"));
+            Assert.That(beforeMovie.Description, Is.EqualTo("1st Movie Description"));
+            Assert.That(beforeMovie.Id, Is.EqualTo(3));
 
-        //AddProducer test
-
-        [Test, Order(5)]
-        public void AddProducer_Test()
-        {
-            var newProducer = new ProducerVM()
+            var updatedMovie = new MovieVM()
             {
-                Name = "Producer Test"
+                Title = "Updated Movie Title",
+                Description = "Updated Movie Description",
+                Rate = 4,
+                NumOfRates = 1,
+                Genre = "Comedy",
+                ProducerId = 2
             };
 
-            var result = producersService.AddProducer(newProducer);
+            IActionResult updatedMovieActionResult = moviesController.UpdateMovieById(3, updatedMovie);
 
-            Assert.That(result, Is.Not.Null);
-            Assert.That(result.Name, Is.EqualTo("Producer Test"));
-            Assert.That(result.Id, Is.Not.Null);
-        }
-
-        //GetProducerData test
-
-        [Test, Order(6)]
-        public void GetProducerData_Test()
-        {
-            var result = producersService.GetProducerData(1);
-
-            Assert.That(result.Name, Is.EqualTo("Producer 1"));
-            Assert.That(result.MovieActors, Is.Not.Empty);
-
-            var firstMovieName = result.MovieActors.OrderBy(n => n.MovieTitle).FirstOrDefault().MovieTitle;
-            Assert.That(firstMovieName, Is.EqualTo("2nd Movie Title"));
-        }
-
-        //DeleteProducerById tests
-
-        [Test, Order(7)]
-        public void DeleteProducerById_DeleteValidProducer_Test()
-        {
-            var producerWithIdOne = producersService.GetProducerById(1);
-
-            //producer with id 1 exists
-            Assert.That(producerWithIdOne.Id, Is.EqualTo(1));
-            Assert.That(producerWithIdOne.Name, Is.EqualTo("Producer 1"));
-
-            producersService.DeleteProducerById(1);
-            producerWithIdOne = producersService.GetProducerById(1);
-
-            //producer with id 1 has been deleted
-            Assert.That(producerWithIdOne, Is.Null);
-        }
-
-        [Test, Order(8)]
-        public void DeleteProducerById_DeleteInvalidProducer_Test()
-        {
-            Assert.That(() => producersService.DeleteProducerById(100),
-                Throws.Exception.With.Message.EqualTo("The producer with id: 100 does not exist"));
+            Assert.That(updatedMovie.Title, Is.EqualTo("Updated Movie Title"));
+            Assert.That(updatedMovie.Description, Is.EqualTo("Updated Movie Description"));
         }
 
         [OneTimeTearDown]
